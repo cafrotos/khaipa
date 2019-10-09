@@ -6,8 +6,7 @@ import requests
 import sys
 import os
 from flask import Flask
-from threading import Thread
-import threading
+from multiprocessing import Process
 
 app = Flask(__name__)
 
@@ -121,11 +120,12 @@ def index():
 
 if __name__ == '__main__':
     try:
-        thread1 = threading.Thread(target=crawl)
-        thread2 = threading.Thread(target=web, args=(sys.argv[1],))
-        thread1.start()
-        thread2.start()
+        p = Process(target=crawl).start()
+        # thread2 = threading.Thread(target=web, args=(sys.argv[1],))
+        # thread1.start()
+        # thread2.start()
         # thread2.join()
         # thread1.join()
+        web(sys.argv[1])
     except:
         print("str(identifier)")
