@@ -6,7 +6,6 @@ import re
 from collections import defaultdict
 import pandas as pd
 import daemon
-
 USERNAME = '0936149274'
 PASSWORD = 'dominhkha1999'
 
@@ -78,7 +77,7 @@ def getDict(session,line,cookies,index):
                 print(name+" - general")
     return dict_
 
-def crawl():
+if __name__ == "__main__":
     try:
         contents=getContents("train.txt")
         session = requests.session()
@@ -94,7 +93,3 @@ def crawl():
     except:
         name="data_"+str(first_line)+"_"+str(index)+"error.csv"
         df.to_csv(name,encoding='utf-8-sig')
-
-if __name__ == "__main__":
-    with daemon.DaemonContext():
-        crawl()
