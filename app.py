@@ -109,6 +109,8 @@ def crawl():
         name = "data_"+str(first_line)+"_"+str(index)+"error.csv"
         df.to_csv(name, encoding='utf-8-sig')
 
+def web(p):
+  app.run(port=p)
 
 @app.route('/')
 def index():
@@ -118,8 +120,11 @@ def index():
 if __name__ == '__main__':
     try:
         thread1 = threading.Thread(target=crawl)
+        thread2 = threading.Thread(target=web, args=(sys.argv[1],))
         thread1.start()
-        app.run(port=sys.argv[1])
+        thread2.start()
+        thread2.join()
         thread1.join()
+        # web(sys.argv[1])
     except:
         print("str(identifier)")
