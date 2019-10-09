@@ -11,8 +11,8 @@ import threading
 
 app = Flask(__name__)
 
-os.environ['username'] = "a"
-os.environ['password'] = "a"
+# os.environ['username'] = "a"
+# os.environ['password'] = "a"
 
 USERNAME = os.environ['username']
 PASSWORD = os.environ['password']
@@ -38,8 +38,8 @@ base_url = "https://www.facebook.com/groups/"
 dict__ = {'__label__18-24': {'sport and travel': 0, 'buy and sell': 0, 'health and family': 0, 'jobs': 0, 'love': 0,
                              'social learning': 0, 'suport': 0, 'new': 0, 'comic and film': 0, 'music': 0, 'gaming': 0, 'school and class': 0, "club": 0, "general": 0}}
 
-os.environ['first_line'] = "1"
-os.environ['last_line'] = "5"
+# os.environ['first_line'] = "1"
+# os.environ['last_line'] = "5"
 
 first_line = int(os.environ['first_line'])
 last_line = int(os.environ['last_line'])
