@@ -1,1 +1,1 @@
-web: python index.py runserver $PORT
+web: python3 index.py runserver $PORT
