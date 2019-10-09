@@ -1,21 +1,21 @@
-
-import sys
-import requests
-from bs4 import BeautifulSoup
-import re
-from collections import defaultdict
 import pandas as pd
+from collections import defaultdict
+import re
+from bs4 import BeautifulSoup
+import requests
+import sys
 import os
+from flask import Flask
 from threading import Thread
 import threading
-import time
+
+app = Flask(__name__)
+
+os.environ['username'] = "a"
+os.environ['password'] = "a"
 
 USERNAME = os.environ['username']
 PASSWORD = os.environ['password']
-
-# USERNAME = "asfd",
-# PASSWORD = "SJFD"
-
 
 cate_dict = {
     "music": [" hát", "hat", "bolero", "nhạc", "cải lương", "song ca", "thơ"],
@@ -38,8 +38,8 @@ base_url = "https://www.facebook.com/groups/"
 dict__ = {'__label__18-24': {'sport and travel': 0, 'buy and sell': 0, 'health and family': 0, 'jobs': 0, 'love': 0,
                              'social learning': 0, 'suport': 0, 'new': 0, 'comic and film': 0, 'music': 0, 'gaming': 0, 'school and class': 0, "club": 0, "general": 0}}
 
-# os.environ['first_line'] = '1'
-# os.environ['last_line'] = '2'
+os.environ['first_line'] = "1"
+os.environ['last_line'] = "5"
 
 first_line = int(os.environ['first_line'])
 last_line = int(os.environ['last_line'])
@@ -93,7 +93,7 @@ def getDict(session, line, cookies, index):
     return dict_
 
 
-def crawlData():
+def crawl():
     try:
         contents = getContents("train.txt")
         session = requests.session()
@@ -112,17 +112,16 @@ def crawlData():
         df.to_csv(name, encoding='utf-8-sig')
 
 
-if __name__ == "__main__":
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crawl.settings')
+@app.route('/')
+def index():
+    return 'hello'
+
+
+if __name__ == '__main__':
     try:
-        from django.core.management import execute_from_command_line
-        # t2 = threading.Thread(target=crawlData, args=())
-        # t2.start()
-    except ImportError as exc:
-        raise ImportError(
-            "Couldn't import Django. Are you sure it's installed and "
-            "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?"
-        ) from exc
-    execute_from_command_line(sys.argv)
-    # t2.join()
+        thread1 = threading.Thread(target=crawl)
+        thread1.start()
+        app.run()
+        thread1.join()
+    except:
+        print("str(identifier)")
