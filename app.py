@@ -125,8 +125,8 @@ if __name__ == '__main__':
         thread2 = threading.Thread(target=web, args=(sys.argv[1],))
         thread1.start()
         thread2.start()
-        thread2.join()
-        thread1.join()
+        # thread2.join()
+        # thread1.join()
         # web(sys.argv[1])
     except:
         print("str(identifier)")
