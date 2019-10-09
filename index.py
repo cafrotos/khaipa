@@ -10,8 +10,8 @@ from threading import Thread
 import threading
 import time
 
-USERNAME = '0982380023'
-PASSWORD = 'dominhkha1999'
+USERNAME = environ['username']
+PASSWORD = environ['password']
 
 cate_dict = {
     "music": [" hát", "hat", "bolero", "nhạc", "cải lương", "song ca", "thơ"],
