@@ -1,20 +1,12 @@
 import pandas as pd
-from collections import defaultdict
-import re
 from bs4 import BeautifulSoup
 import requests
-import sys
-import os
-from flask import Flask
-from multiprocessing import Process
+from threading import Thread
+import threading
 
-app = Flask(__name__)
 
-os.environ['username'] = "0936149274"
-os.environ['password'] = "dominhkha1999"
-
-USERNAME = os.environ['username']
-PASSWORD = os.environ['password']
+USERNAME = "0936149274"
+PASSWORD = "dominhkha1999"
 
 cate_dict = {
     "music": [" hát", "hat", "bolero", "nhạc", "cải lương", "song ca", "thơ"],
@@ -36,12 +28,6 @@ base_url = "https://www.facebook.com/groups/"
 
 dict__ = {'__label__18-24': {'sport and travel': 0, 'buy and sell': 0, 'health and family': 0, 'jobs': 0, 'love': 0,
                              'social learning': 0, 'suport': 0, 'new': 0, 'comic and film': 0, 'music': 0, 'gaming': 0, 'school and class': 0, "club": 0, "general": 0}}
-
-os.environ['first_line'] = "1000"
-os.environ['last_line'] = "5000"
-
-first_line = int(os.environ['first_line'])
-last_line = int(os.environ['last_line'])
 
 
 def login(session, email, password):
@@ -92,9 +78,12 @@ def getDict(session, line, cookies, index):
     return dict_
 
 
-def crawl():
+def getDataTrain():
+    return getContents("train.txt")
+
+
+def crawl(first_line, last_line, contents):
     try:
-        contents = getContents("train.txt")
         session = requests.session()
         cookies = login(session, USERNAME, PASSWORD)
         df = pd.DataFrame.from_dict(dict__, orient='index')
@@ -110,22 +99,15 @@ def crawl():
         name = "data_"+str(first_line)+"_"+str(index)+"error.csv"
         df.to_csv(name, encoding='utf-8-sig')
 
-def web(p):
-  app.run(port=p)
-
-@app.route('/')
-def index():
-    return 'hello'
-
 
 if __name__ == '__main__':
     try:
-        p = Process(target=crawl).start()
-        # thread2 = threading.Thread(target=web, args=(sys.argv[1],))
-        # thread1.start()
-        # thread2.start()
-        # thread2.join()
-        # thread1.join()
-        web(sys.argv[1])
+        contents = getDataTrain()
+        t1 = threading.Thread(target=crawl, args=(1000, 1005, contents, ))
+        t2 = threading.Thread(target=crawl, args=(1005, 1010, contents, ))
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
     except:
         print("str(identifier)")
