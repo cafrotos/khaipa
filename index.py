@@ -13,6 +13,10 @@ import time
 USERNAME = os.environ['username']
 PASSWORD = os.environ['password']
 
+# USERNAME = "asfd",
+# PASSWORD = "SJFD"
+
+
 cate_dict = {
     "music": [" hát", "hat", "bolero", "nhạc", "cải lương", "song ca", "thơ"],
     "sport and travel": ["bóng chuyền", "volleyball", "thể thao", "bóng đá", "du lịch", "travel", "MU", "chelsea", "ronaldo", "gải trí", "trip"],
@@ -89,19 +93,6 @@ def getDict(session, line, cookies, index):
     return dict_
 
 
-def main(argv):
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crawl.settings')
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError as exc:
-        raise ImportError(
-            "Couldn't import Django. Are you sure it's installed and "
-            "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?"
-        ) from exc
-    execute_from_command_line(argv)
-
-
 def crawlData():
     try:
         contents = getContents("train.txt")
@@ -122,10 +113,16 @@ def crawlData():
 
 
 if __name__ == "__main__":
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crawl.settings')
     try:
+        from django.core.management import execute_from_command_line
         t2 = threading.Thread(target=crawlData, args=())
         t2.start()
-        main(sys.argv)
-        t2.join()
-    except:
-        print("error")
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+    t2.join()
